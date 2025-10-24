@@ -1,5 +1,5 @@
 {
-    "name": "@tkhoohelpers-contentful",
+    "name": "@tkhoo/helpers-contentful",
     "repo": "https://github.com/theresakhoo/helpers-contentful",
     "version": "1.0.0",
     "description": "Helper for Contentful CMS integration",
