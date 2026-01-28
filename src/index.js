@@ -278,10 +278,10 @@ export class ContentfulTarget {
         return nstr.map(s=> typeof s === 'string'? s : s.v).join('');
     }
 
-    // return rich text node from nstr
-    #translateParagraph(nstr){
+    // return rich text node from tu
+    #translateParagraph(tu){
         // convert tu to html
-        const str = this.#converNstrToHtml(nstr);
+        const str = tu.str? tu.str : this.#converNstrToHtml(tu.nstr);
         // convert html to rich text node
         return htmlStringToDocument(str);
     }
@@ -296,8 +296,8 @@ export class ContentfulTarget {
                 const strTmpPlain = documentToPlainTextString(node);
                 if (strTmp && strTmpPlain) {
                     const tu = this.#getTranslation(tus, `${sid}-${idx}`);
-                    if (tu && tu.nstr) {
-                        const translatedNode = this.#translateParagraph(tu.nstr);
+                    if (tu && (tu.str || tu.nstr)) {
+                        const translatedNode = this.#translateParagraph(tu);
                         translatedNode && (node.content = translatedNode.content);
                     }
                     idx++;
