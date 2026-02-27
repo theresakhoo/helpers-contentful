@@ -90,11 +90,16 @@ export class ContentfulSource {
             } else if (typeof entry === 'object' && entry.content) {
                 entry.content.forEach(e=> {
                     if (e.nodeType === BLOCKS.EMBEDDED_ENTRY) {
-                        this.#checkEntry(resources, e.data.target.fields, e.data.target.sys.contentType.sys.id) &&
-                            this.#addEntry(resources, e.data.target);
+                        // Check if target exists before accessing its properties
+                        if (e.data?.target?.sys?.contentType?.sys?.id) {
+                            this.#checkEntry(resources, e.data.target.fields, e.data.target.sys.contentType.sys.id) &&
+                                this.#addEntry(resources, e.data.target);
+                        } else {
+                            console.warn(`Skipping embedded entry with missing target in ${contentTypeId}`);
+                        }
                     } else {
                         hasLocalizableFields = true;
-                    }
+                    }                    
                 });
             } else {
                 //TODO: if english doesn't exist, but other languages do, need to clear the other languages
